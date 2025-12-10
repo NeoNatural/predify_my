@@ -4,10 +4,8 @@
 #########################
 #%%
 import torch
-import torchvision
-import torchvision.models as models
-import torchvision.transforms as transforms
 from torchvision.datasets import ImageNet
+from torchvision.models import VGG16_BN_Weights, vgg16_bn
 
 import torch.nn as nn
 import torch.optim as optim
@@ -76,7 +74,8 @@ device = torch.device('cuda:0')
 from pvgg16_separate import PVGG16SeparateHP as PVGG16
 
 
-net = torchvision.models.vgg16(pretrained=True)
+weights = VGG16_BN_Weights.IMAGENET1K_V1
+net = vgg16_bn(weights=weights)
 pnet = PVGG16(net,build_graph=True,random_init=False)
 pnet.to(device)
 
@@ -98,13 +97,7 @@ if args.SCHEDULER == 'cosine_annealing':
 ################################################
 #       Dataset and train-test helpers
 ################################################
-transform_val = transforms.Compose([
-    transforms.Resize(224),
-    transforms.CenterCrop(224),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-
-])
+transform_val = weights.transforms()
 
 data_root  = args.IMAGENET_DIR
 train_ds     = ImageNet(data_root, split='train', download=False, transform=transform_val)
