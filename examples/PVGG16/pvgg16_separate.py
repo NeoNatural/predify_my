@@ -12,7 +12,7 @@ class PVGG16SeparateHP(PNetSeparateHP):
         def fw_hook1(m, m_in, m_out):
             e = self.pcoder1(ff=m_out, fb=self.pcoder2.prd, target=self.input_mem, build_graph=self.build_graph, ffm=self.ffm1, fbm=self.fbm1, erm=self.erm1)
             return e[0]
-        self.backbone.features[3].register_forward_hook(fw_hook1)
+        self.backbone.features[5].register_forward_hook(fw_hook1)
 
         # PCoder number 2
         pmodule = Sequential(ConvTranspose2d(128, 64, kernel_size=(10, 10), stride=(2, 2), padding=(4, 4)), ReLU(inplace=True))
@@ -20,7 +20,7 @@ class PVGG16SeparateHP(PNetSeparateHP):
         def fw_hook2(m, m_in, m_out):
             e = self.pcoder2(ff=m_out, fb=self.pcoder3.prd, target=self.pcoder1.rep, build_graph=self.build_graph, ffm=self.ffm2, fbm=self.fbm2, erm=self.erm2)
             return e[0]
-        self.backbone.features[8].register_forward_hook(fw_hook2)
+        self.backbone.features[12].register_forward_hook(fw_hook2)
 
         # PCoder number 3
         pmodule = Sequential(ConvTranspose2d(256, 128, kernel_size=(14, 14), stride=(2, 2), padding=(6, 6)), ReLU(inplace=True))
@@ -28,7 +28,7 @@ class PVGG16SeparateHP(PNetSeparateHP):
         def fw_hook3(m, m_in, m_out):
             e = self.pcoder3(ff=m_out, fb=self.pcoder4.prd, target=self.pcoder2.rep, build_graph=self.build_graph, ffm=self.ffm3, fbm=self.fbm3, erm=self.erm3)
             return e[0]
-        self.backbone.features[15].register_forward_hook(fw_hook3)
+        self.backbone.features[22].register_forward_hook(fw_hook3)
 
         # PCoder number 4
         pmodule = Sequential(ConvTranspose2d(512, 256, kernel_size=(14, 14), stride=(2, 2), padding=(6, 6)), ReLU(inplace=True))
@@ -36,7 +36,7 @@ class PVGG16SeparateHP(PNetSeparateHP):
         def fw_hook4(m, m_in, m_out):
             e = self.pcoder4(ff=m_out, fb=self.pcoder5.prd, target=self.pcoder3.rep, build_graph=self.build_graph, ffm=self.ffm4, fbm=self.fbm4, erm=self.erm4)
             return e[0]
-        self.backbone.features[22].register_forward_hook(fw_hook4)
+        self.backbone.features[32].register_forward_hook(fw_hook4)
 
         # PCoder number 5
         pmodule = Sequential(ConvTranspose2d(512, 512, kernel_size=(14, 14), stride=(2, 2), padding=(6, 6)), ReLU(inplace=True))
@@ -44,6 +44,6 @@ class PVGG16SeparateHP(PNetSeparateHP):
         def fw_hook5(m, m_in, m_out):
             e = self.pcoder5(ff=m_out, fb=None, target=self.pcoder4.rep, build_graph=self.build_graph, ffm=self.ffm5, fbm=self.fbm5, erm=self.erm5)
             return e[0]
-        self.backbone.features[29].register_forward_hook(fw_hook5)
+        self.backbone.features[42].register_forward_hook(fw_hook5)
 
 
