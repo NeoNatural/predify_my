@@ -2,13 +2,13 @@
 TITLE = "Training Feedback Weights"
 
 
-RANDOM_SEED = 42                                                         # random seed for training
+RANDOM_SEED = 114514                                                         # random seed for training
 CUDNN_DETERMINISTIC = false
 CUDNN_BENCHMARK = true
 
 GPU_TO_USE = 0
 
-IMAGENET_DIR = 'C:\\Users\\jxl1870\\Downloads\\ImageNet'
+IMAGENET_DIR = r'C:\Users\liang\Documents\ImageNet'
 
 ###  Tensorbaord ###
 START_EPOCH = 1                                                           # epoch from which the training starts (especially for tensorboard)
